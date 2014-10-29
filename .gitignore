@@ -1,0 +1,6 @@
+# Created by .gitignore support plugin (hsz.mobi)
+### Kohana template
+application/cache/*
+application/logs/*
+.gitignore
+.idea/*
