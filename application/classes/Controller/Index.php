@@ -1,9 +1,16 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Index extends Controller_Application {
+class Controller_Index extends Controller_Abstract_Application
+{
 
     public function action_index()
     {
-        $this->view->set('appName', 'Test Users Application');
+
     }
+
+    public function error_action()
+    {
+        $this->view = 'error';
+    }
+
 }

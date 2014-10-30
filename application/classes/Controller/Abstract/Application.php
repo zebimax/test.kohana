@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Application extends Controller_Template {
+abstract class Controller_Abstract_Application extends Controller_Template {
 
     protected $view;
 

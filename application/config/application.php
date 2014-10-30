@@ -2,7 +2,7 @@
 return [
     'title' => 'Тестовое задание на Kohana',
     'defaults' => [
-        'view' => 'index',
+        'view' => 'list',
         'template' => 'template'
     ]
 ];
