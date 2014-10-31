@@ -8,7 +8,7 @@ class Controller_Index extends Controller_Abstract_Application
 
     }
 
-    public function error_action()
+    public function action_error(array $params = [])
     {
         $this->view = 'error';
     }

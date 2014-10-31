@@ -2,24 +2,20 @@
 
 class Kohana_Exception extends Kohana_Kohana_Exception {
 
-    public static function handler(Exception $e)
+    public static function _handler(Exception $e)
     {
-        exit('test');
-        $params = array
-        (
-            'action'  => 500,
-            'message' => rawurlencode($e->getMessage())
-        );
+        $error = $data = $e->getMessage();
+        $success = FALSE;
 
-        if ($e instanceof HTTP_Exception)
-        {
-            $params['action'] = $e->getCode();
-        }
+        $view = View::factory('json')
+            ->bind('success', $success)
+            ->bind('data', $error)
+            ->bind('message', $error);
+        $response = Response::factory();
+        $response->status(500);
+        $response->headers('Content-Type', 'application/json; charset=utf-8');
 
-        // Error sub-request.
-        echo Request::factory(Route::get('error')->uri($params))
-            ->execute()
-            ->send_headers()
-            ->body();
+        $response->body($view->render());
+        return $response;
     }
 }

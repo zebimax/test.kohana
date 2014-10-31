@@ -27,6 +27,7 @@
             </tfoot>
         </table>
     </div><!-- /row -->
-</div><
+</div>
 <!-- /container -->
-
+<div id="info_message" class="alert alert-info alert-block abs-info"></div>
+<div id="error_message" class="alert alert-danger alert-block abs-info"></div>

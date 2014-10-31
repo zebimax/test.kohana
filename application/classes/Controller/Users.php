@@ -1,17 +1,29 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Users1 extends Controller_Abstract_Json
+class Controller_Users extends Controller_Abstract_Json
 {
 
-    public function action_list()
+  public function action_delete()
+   {
+     Request::$current->post();
+     $this->view
+          ->set('success', false)
+          ->set('data', 'Deleted successfully')
+          ->set('message', 'Deleted successfully');
+
+   }
+
+   public function action_list()
     {
 //        echo json_encode(['data'=>[]]);
 //        exit();
 
-        echo '{
+     //$this->view->set('data');
+
+      echo '{
   "data": [
     {
-      "DT_RowId": "row_1",
+      "id": "row_1",
       "first_name": "Tiger",
       "last_name": "Nixon",
       "position": "System Architect",
@@ -23,7 +35,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-04-25"
     },
     {
-      "DT_RowId": "row_2",
+      "id": "row_2",
       "first_name": "Garrett",
       "last_name": "Winters",
       "position": "Accountant",
@@ -35,7 +47,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-07-25"
     },
     {
-      "DT_RowId": "row_3",
+      "id": "row_3",
       "first_name": "Ashton",
       "last_name": "Cox",
       "position": "Junior Technical Author",
@@ -47,7 +59,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-01-12"
     },
     {
-      "DT_RowId": "row_4",
+      "id": "row_4",
       "first_name": "Cedric",
       "last_name": "Kelly",
       "position": "Senior Javascript Developer",
@@ -59,7 +71,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-03-29"
     },
     {
-      "DT_RowId": "row_5",
+      "id": "row_5",
       "first_name": "Airi",
       "last_name": "Satou",
       "position": "Accountant",
@@ -71,7 +83,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-11-28"
     },
     {
-      "DT_RowId": "row_6",
+      "id": "row_6",
       "first_name": "Brielle",
       "last_name": "Williamson",
       "position": "Integration Specialist",
@@ -83,7 +95,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-12-02"
     },
     {
-      "DT_RowId": "row_7",
+      "id": "row_7",
       "first_name": "Herrod",
       "last_name": "Chandler",
       "position": "Sales Assistant",
@@ -95,7 +107,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-08-06"
     },
     {
-      "DT_RowId": "row_8",
+      "id": "row_8",
       "first_name": "Rhona",
       "last_name": "Davidson",
       "position": "Integration Specialist",
@@ -107,7 +119,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-10-14"
     },
     {
-      "DT_RowId": "row_9",
+      "id": "row_9",
       "first_name": "Colleen",
       "last_name": "Hurst",
       "position": "Javascript Developer",
@@ -119,7 +131,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-09-15"
     },
     {
-      "DT_RowId": "row_10",
+      "id": "row_10",
       "first_name": "Sonya",
       "last_name": "Frost",
       "position": "Software Engineer",
@@ -131,7 +143,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-12-13"
     },
     {
-      "DT_RowId": "row_11",
+      "id": "row_11",
       "first_name": "Jena",
       "last_name": "Gaines",
       "position": "Office Manager",
@@ -143,7 +155,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-12-19"
     },
     {
-      "DT_RowId": "row_12",
+      "id": "row_12",
       "first_name": "Quinn",
       "last_name": "Flynn",
       "position": "Support Lead",
@@ -155,7 +167,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2013-03-03"
     },
     {
-      "DT_RowId": "row_13",
+      "id": "row_13",
       "first_name": "Charde",
       "last_name": "Marshall",
       "position": "Regional Director",
@@ -167,7 +179,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-10-16"
     },
     {
-      "DT_RowId": "row_14",
+      "id": "row_14",
       "first_name": "Haley",
       "last_name": "Kennedy",
       "position": "Senior Marketing Designer",
@@ -179,7 +191,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-12-18"
     },
     {
-      "DT_RowId": "row_15",
+      "id": "row_15",
       "first_name": "Tatyana",
       "last_name": "Fitzpatrick",
       "position": "Regional Director",
@@ -191,7 +203,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-03-17"
     },
     {
-      "DT_RowId": "row_16",
+      "id": "row_16",
       "first_name": "Michael",
       "last_name": "Silva",
       "position": "Marketing Designer",
@@ -203,7 +215,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-11-27"
     },
     {
-      "DT_RowId": "row_17",
+      "id": "row_17",
       "first_name": "Paul",
       "last_name": "Byrd",
       "position": "Chief Financial Officer (CFO)",
@@ -215,7 +227,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-06-09"
     },
     {
-      "DT_RowId": "row_18",
+      "id": "row_18",
       "first_name": "Gloria",
       "last_name": "Little",
       "position": "Systems Administrator",
@@ -227,7 +239,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-04-10"
     },
     {
-      "DT_RowId": "row_19",
+      "id": "row_19",
       "first_name": "Bradley",
       "last_name": "Greer",
       "position": "Software Engineer",
@@ -239,7 +251,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-10-13"
     },
     {
-      "DT_RowId": "row_20",
+      "id": "row_20",
       "first_name": "Dai",
       "last_name": "Rios",
       "position": "Personnel Lead",
@@ -251,7 +263,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-09-26"
     },
     {
-      "DT_RowId": "row_21",
+      "id": "row_21",
       "first_name": "Jenette",
       "last_name": "Caldwell",
       "position": "Development Lead",
@@ -263,7 +275,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-09-03"
     },
     {
-      "DT_RowId": "row_22",
+      "id": "row_22",
       "first_name": "Yuri",
       "last_name": "Berry",
       "position": "Chief Marketing Officer (CMO)",
@@ -275,7 +287,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-06-25"
     },
     {
-      "DT_RowId": "row_23",
+      "id": "row_23",
       "first_name": "Caesar",
       "last_name": "Vance",
       "position": "Pre-Sales Support",
@@ -287,7 +299,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-12-12"
     },
     {
-      "DT_RowId": "row_24",
+      "id": "row_24",
       "first_name": "Doris",
       "last_name": "Wilder",
       "position": "Sales Assistant",
@@ -299,7 +311,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-09-20"
     },
     {
-      "DT_RowId": "row_25",
+      "id": "row_25",
       "first_name": "Angelica",
       "last_name": "Ramos",
       "position": "Chief Executive Officer (CEO)",
@@ -311,7 +323,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-10-09"
     },
     {
-      "DT_RowId": "row_26",
+      "id": "row_26",
       "first_name": "Gavin",
       "last_name": "Joyce",
       "position": "Developer",
@@ -323,7 +335,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-12-22"
     },
     {
-      "DT_RowId": "row_27",
+      "id": "row_27",
       "first_name": "Jennifer",
       "last_name": "Chang",
       "position": "Regional Director",
@@ -335,7 +347,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-11-14"
     },
     {
-      "DT_RowId": "row_28",
+      "id": "row_28",
       "first_name": "Brenden",
       "last_name": "Wagner",
       "position": "Software Engineer",
@@ -347,7 +359,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-06-07"
     },
     {
-      "DT_RowId": "row_29",
+      "id": "row_29",
       "first_name": "Fiona",
       "last_name": "Green",
       "position": "Chief Operating Officer (COO)",
@@ -359,7 +371,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-03-11"
     },
     {
-      "DT_RowId": "row_30",
+      "id": "row_30",
       "first_name": "Shou",
       "last_name": "Itou",
       "position": "Regional Marketing",
@@ -371,7 +383,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-08-14"
     },
     {
-      "DT_RowId": "row_31",
+      "id": "row_31",
       "first_name": "Michelle",
       "last_name": "House",
       "position": "Integration Specialist",
@@ -383,7 +395,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-06-02"
     },
     {
-      "DT_RowId": "row_32",
+      "id": "row_32",
       "first_name": "Suki",
       "last_name": "Burks",
       "position": "Developer",
@@ -395,7 +407,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-10-22"
     },
     {
-      "DT_RowId": "row_33",
+      "id": "row_33",
       "first_name": "Prescott",
       "last_name": "Bartlett",
       "position": "Technical Author",
@@ -407,7 +419,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-05-07"
     },
     {
-      "DT_RowId": "row_34",
+      "id": "row_34",
       "first_name": "Gavin",
       "last_name": "Cortez",
       "position": "Team Leader",
@@ -419,7 +431,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-10-26"
     },
     {
-      "DT_RowId": "row_35",
+      "id": "row_35",
       "first_name": "Martena",
       "last_name": "Mccray",
       "position": "Post-Sales support",
@@ -431,7 +443,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-03-09"
     },
     {
-      "DT_RowId": "row_36",
+      "id": "row_36",
       "first_name": "Unity",
       "last_name": "Butler",
       "position": "Marketing Designer",
@@ -443,7 +455,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-12-09"
     },
     {
-      "DT_RowId": "row_37",
+      "id": "row_37",
       "first_name": "Howard",
       "last_name": "Hatfield",
       "position": "Office Manager",
@@ -455,7 +467,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-12-16"
     },
     {
-      "DT_RowId": "row_38",
+      "id": "row_38",
       "first_name": "Hope",
       "last_name": "Fuentes",
       "position": "Secretary",
@@ -467,7 +479,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-02-12"
     },
     {
-      "DT_RowId": "row_39",
+      "id": "row_39",
       "first_name": "Vivian",
       "last_name": "Harrell",
       "position": "Financial Controller",
@@ -479,7 +491,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-02-14"
     },
     {
-      "DT_RowId": "row_40",
+      "id": "row_40",
       "first_name": "Timothy",
       "last_name": "Mooney",
       "position": "Office Manager",
@@ -491,7 +503,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-12-11"
     },
     {
-      "DT_RowId": "row_41",
+      "id": "row_41",
       "first_name": "Jackson",
       "last_name": "Bradshaw",
       "position": "Director",
@@ -503,7 +515,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-09-26"
     },
     {
-      "DT_RowId": "row_42",
+      "id": "row_42",
       "first_name": "Olivia",
       "last_name": "Liang",
       "position": "Support Engineer",
@@ -515,7 +527,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-02-03"
     },
     {
-      "DT_RowId": "row_43",
+      "id": "row_43",
       "first_name": "Bruno",
       "last_name": "Nash",
       "position": "Software Engineer",
@@ -527,7 +539,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-05-03"
     },
     {
-      "DT_RowId": "row_44",
+      "id": "row_44",
       "first_name": "Sakura",
       "last_name": "Yamamoto",
       "position": "Support Engineer",
@@ -539,7 +551,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-08-19"
     },
     {
-      "DT_RowId": "row_45",
+      "id": "row_45",
       "first_name": "Thor",
       "last_name": "Walton",
       "position": "Developer",
@@ -551,7 +563,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2013-08-11"
     },
     {
-      "DT_RowId": "row_46",
+      "id": "row_46",
       "first_name": "Finn",
       "last_name": "Camacho",
       "position": "Support Engineer",
@@ -563,7 +575,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-07-07"
     },
     {
-      "DT_RowId": "row_47",
+      "id": "row_47",
       "first_name": "Serge",
       "last_name": "Baldwin",
       "position": "Data Coordinator",
@@ -575,7 +587,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-04-09"
     },
     {
-      "DT_RowId": "row_48",
+      "id": "row_48",
       "first_name": "Zenaida",
       "last_name": "Frank",
       "position": "Software Engineer",
@@ -587,7 +599,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-01-04"
     },
     {
-      "DT_RowId": "row_49",
+      "id": "row_49",
       "first_name": "Zorita",
       "last_name": "Serrano",
       "position": "Software Engineer",
@@ -599,7 +611,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2012-06-01"
     },
     {
-      "DT_RowId": "row_50",
+      "id": "row_50",
       "first_name": "Jennifer",
       "last_name": "Acosta",
       "position": "Junior Javascript Developer",
@@ -611,7 +623,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2013-02-01"
     },
     {
-      "DT_RowId": "row_51",
+      "id": "row_51",
       "first_name": "Cara",
       "last_name": "Stevens",
       "position": "Sales Assistant",
@@ -623,7 +635,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-12-06"
     },
     {
-      "DT_RowId": "row_52",
+      "id": "row_52",
       "first_name": "Hermione",
       "last_name": "Butler",
       "position": "Regional Director",
@@ -635,7 +647,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-03-21"
     },
     {
-      "DT_RowId": "row_53",
+      "id": "row_53",
       "first_name": "Lael",
       "last_name": "Greer",
       "position": "Systems Administrator",
@@ -647,7 +659,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2009-02-27"
     },
     {
-      "DT_RowId": "row_54",
+      "id": "row_54",
       "first_name": "Jonas",
       "last_name": "Alexander",
       "position": "Developer",
@@ -659,7 +671,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2010-07-14"
     },
     {
-      "DT_RowId": "row_55",
+      "id": "row_55",
       "first_name": "Shad",
       "last_name": "Decker",
       "position": "Regional Director",
@@ -671,7 +683,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2008-11-13"
     },
     {
-      "DT_RowId": "row_56",
+      "id": "row_56",
       "first_name": "Michael",
       "last_name": "Bruce",
       "position": "Javascript Developer",
@@ -683,7 +695,7 @@ class Controller_Users1 extends Controller_Abstract_Json
       "start_date": "2011-06-27"
     },
     {
-      "DT_RowId": "row_57",
+      "id": "row_57",
       "first_name": "Donna",
       "last_name": "Snider",
       "position": "Customer Support",

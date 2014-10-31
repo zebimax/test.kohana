@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="/js/media/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="/js/extensions/TableTools/css/dataTables.tableTools.css">
     <link rel="stylesheet" type="text/css" href="/js/extensions/Editor-1.3.3/css/dataTables.editor.css">
+    <link   href="/css/bootstrap.css" rel="stylesheet">
+    <link   href="/css/style.css" rel="stylesheet">
+
 
     <!-- jQuery, DataTables, TableTools and Editor Javascript -->
     <script type="text/javascript" src="/js/media/js/jquery.js"></script>
@@ -15,9 +18,13 @@
     <script type="text/javascript" src="/js/extensions/TableTools/js/dataTables.tableTools.js"></script>
     <script type="text/javascript" src="/js/extensions/Editor-1.3.3/js/dataTables.editor.js"></script>
 
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/alert.js"></script>
+
+
+
 
     <!-- DataTables -->
-    <link   href="/css/bootstrap.min.css" rel="stylesheet">
     <script src="/js/application.js"></script>
 </head>
 <title><?php echo $title;?></title>

@@ -2,7 +2,19 @@ var editor; // use a global for the submit and return data rendering in the exam
 
 $(document).ready(function() {
     editor = new $.fn.dataTable.Editor( {
-        ajax: "/users/list",
+        ajax: {
+            create: "/users/create",
+            edit:   "/users/edit",
+            remove: "/users/delete"
+        },
+        idSrc: "id",
+        i18n: {
+            error: {
+                system: function() {
+                    return JSON.parse(event.target.responseText).error;
+                }
+            }
+        },
         table: "#example",
         fields: [ {
             label: "First name:",
@@ -28,10 +40,32 @@ $(document).ready(function() {
         }
         ]
     } );
+    editor.on('submitSuccess', function(e, json, data ) {
+        if (json.success) {
+            $('#info_message').html(json.msg);
+            $('#info_message').show();
 
+            setTimeout( function () {
+                $('#info_message').html('');
+                $('#info_message').hide();
+            }, 2500 );
+        } else {
+            $('#error_message').html(json.msg);
+            $('#error_message').show();
+            setTimeout( function () {
+                $('#error_message').html('');
+                $('#error_message').hide();
+            }, 2500 );
+        }
+    });
     var table = $('#example').DataTable( {
         lengthChange: false,
-        ajax: "/users/list",
+        ajax: {
+            url: "/users/list",
+            error: function(data) {
+                alert(JSON.parse(data.responseText).error);
+            }
+        },
         columns: [
             { data: null, render: function ( data, type, row ) {
                 // Combine the first and last names into a single table field
@@ -41,11 +75,11 @@ $(document).ready(function() {
             { data: "office" },
             { data: "extn" },
             { data: "start_date" },
-            { data: "salary", render: $.fn.DataTable.render.number( ',', '.', 0, '$' ) }
+            { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
         ]
     } );
 
-    var tableTools = new $.fn.DataTable.TableTools( table, {
+    var tableTools = new $.fn.dataTable.TableTools( table, {
         sRowSelect: "os",
         aButtons: [
             { sExtends: "editor_create", editor: editor },
@@ -53,5 +87,7 @@ $(document).ready(function() {
             { sExtends: "editor_remove", editor: editor }
         ]
     } );
-    $( tableTools.fnContainer() ).appendTo( '#example_wrapper .col-xs-6:eq(0)' );
+    $( tableTools.fnContainer() ).prependTo( '#example_wrapper' );
+    $('#info_message').hide();
+    $('#error_message').hide();
 } );
