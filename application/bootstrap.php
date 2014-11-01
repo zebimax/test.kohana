@@ -103,20 +103,6 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  caching     enable or disable internal caching                 FALSE
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
-//function shutdown()
-//{
-//	$a=error_get_last();
-//	if($a==null)
-//		echo "No errors";
-//	else
-//		print_r($a);
-//
-//}
-//register_shutdown_function('shutdown');
-//ini_set('max_execution_time',1 );
-//sleep(3);
-//set_error_handler(['Application_ErrorHandler', 'handle']);
-//set_exception_handler(['Application_ErrorHandler', 'handleEx']);
 
 Kohana::init(array(
 	'base_url'   => '/',
@@ -140,10 +126,10 @@ Kohana::modules(array(
 	// 'auth'       => MODPATH.'auth',       // Basic authentication
 	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	// 'database'   => MODPATH.'database',   // Database access
+	 'database'   => MODPATH.'database',   // Database access
 	// 'image'      => MODPATH.'image',      // Image manipulation
-	// 'minion'     => MODPATH.'minion',     // CLI Tasks
-	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+	 'minion'     => MODPATH.'minion',     // CLI Tasks
+	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
 	 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));

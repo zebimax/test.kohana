@@ -3,26 +3,28 @@
         <h3>Users</h3>
     </div>
     <div class="row">
-        <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <table id="users" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Extn.</th>
-                <th>Start date</th>
-                <th>Salary</th>
+                <th>Код</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Емайл</th>
+                <th>Страна</th>
+                <th>Город</th>
+                <th>Адресс</th>
             </tr>
             </thead>
 
             <tfoot>
             <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Extn.</th>
-                <th>Start date</th>
-                <th>Salary</th>
+                <th>Код</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Емайл</th>
+                <th>Страна</th>
+                <th>Город</th>
+                <th>Адресс</th>
             </tr>
             </tfoot>
         </table>

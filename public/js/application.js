@@ -15,50 +15,34 @@ $(document).ready(function() {
                 }
             }
         },
-        table: "#example",
+        table: "#users",
         fields: [ {
-            label: "First name:",
+            label: "Код:",
+            name: "id"
+        },
+            {
+            label: "Имя:",
             name: "first_name"
         }, {
-            label: "Last name:",
+            label: "Фамилия:",
             name: "last_name"
         }, {
-            label: "Position:",
-            name: "position"
+            label: "Емайл:",
+            name: "email"
         }, {
-            label: "Office:",
-            name: "office"
+            label: "Страна:",
+            name: "country"
         }, {
-            label: "Extension:",
-            name: "extn"
+            label: "Город:",
+            name: "city"
         }, {
-            label: "Start date:",
-            name: "start_date"
-        }, {
-            label: "Salary:",
-            name: "salary"
+            label: "Адресс:",
+            name: "address"
         }
         ]
     } );
-    editor.on('submitSuccess', function(e, json, data ) {
-        if (json.success) {
-            $('#info_message').html(json.msg);
-            $('#info_message').show();
 
-            setTimeout( function () {
-                $('#info_message').html('');
-                $('#info_message').hide();
-            }, 2500 );
-        } else {
-            $('#error_message').html(json.msg);
-            $('#error_message').show();
-            setTimeout( function () {
-                $('#error_message').html('');
-                $('#error_message').hide();
-            }, 2500 );
-        }
-    });
-    var table = $('#example').DataTable( {
+    var table = $('#users').DataTable( {
         lengthChange: false,
         ajax: {
             url: "/users/list",
@@ -67,15 +51,13 @@ $(document).ready(function() {
             }
         },
         columns: [
-            { data: null, render: function ( data, type, row ) {
-                // Combine the first and last names into a single table field
-                return data.first_name+' '+data.last_name;
-            } },
-            { data: "position" },
-            { data: "office" },
-            { data: "extn" },
-            { data: "start_date" },
-            { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
+            { data: "id" },
+            { data: "first_name" },
+            { data: "last_name" },
+            { data: "email" },
+            { data: "country" },
+            { data: "city" },
+            { data: "address" }
         ]
     } );
 
@@ -87,7 +69,20 @@ $(document).ready(function() {
             { sExtends: "editor_remove", editor: editor }
         ]
     } );
-    $( tableTools.fnContainer() ).prependTo( '#example_wrapper' );
+
+    editor.on('submitSuccess', function(e, json, data ) {
+        var info_element = (json.success) ? $('#info_message') : $('#error_message');
+        info_element.html(json.msg);
+        info_element.show();
+
+        setTimeout( function () {
+            info_element.html('');
+            info_element.hide();
+        }, 2500 );
+    });
+
+
+    $( tableTools.fnContainer() ).prependTo( '#users_wrapper' );
     $('#info_message').hide();
     $('#error_message').hide();
 } );
