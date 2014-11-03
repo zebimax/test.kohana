@@ -14,6 +14,7 @@
 
     <!-- jQuery, DataTables, TableTools and Editor Javascript -->
     <script type="text/javascript" src="/js/media/js/jquery.js"></script>
+
     <script type="text/javascript" src="/js/media/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="/js/extensions/TableTools/js/dataTables.tableTools.js"></script>
     <script type="text/javascript" src="/js/extensions/Editor-1.3.3/js/dataTables.editor.js"></script>
@@ -25,6 +26,8 @@
 
 
     <!-- DataTables -->
+    <script type="text/javascript" src="/js/validation.js"></script>
+
     <script src="/js/application.js"></script>
 </head>
 <title><?php echo $title;?></title>

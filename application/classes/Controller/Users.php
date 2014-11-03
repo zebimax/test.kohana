@@ -1,11 +1,24 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-use Database_PostgreSQL_Result as Result;
 
 class Controller_Users extends Controller_Abstract_Json
 {
+    protected $modelName = 'UsersView';
 
-  public function action_delete()
-   {
+    /** @var Model_UsersView */
+    protected $model;
+
+    public function action_create()
+    {
+        Request::$current->post();
+        $this->view
+            ->set('success', false)
+            ->set('data', 'Deleted successfully')
+            ->set('message', 'Not Created');
+    }
+
+
+    public function action_delete()
+    {
      Request::$current->post();
      $this->view
           ->set('success', false)
@@ -16,9 +29,8 @@ class Controller_Users extends Controller_Abstract_Json
 
    public function action_list()
     {
-        $query = DB::select()->from('users_view');
-        /** @var $res Result */
-        $res = $query->execute();
-        $this->view->set('data', $res->as_array());
+        /** @var Model_UsersView $users_view */
+        $users_view = Model::factory('UsersView');
+        $this->view->set('data' , $users_view->getList());
     }
 }

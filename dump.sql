@@ -701,3 +701,47 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
+CREATE VIEW users_view AS
+    SELECT u.id, u.name first_name, u.last_name, u.email, u.address, u.city, c.name country
+    FROM users u
+    left join countries c on c.id = u.country_id
+    where u.deleted = FALSE
+
+    ALTER TABLE users ADD
+    COLUMN deleted boolean DEFAULT FALSE
+
+
+
+    CREATE OR REPLACE FUNCTION  USERS_INSERT
+(
+	_name varchar(32),
+	_last_name varchar(64),
+	_email varchar(255),
+	_country_id integer,
+	_city varchar(255),
+	_address text
+)
+RETURNS void AS
+$BODY$
+BEGIN
+	insert into users
+	(
+		name,
+		last_name,
+		email,
+		country_id,
+		city,
+		address
+	)
+	values
+	(
+		_name,
+		_last_name,
+		_email,
+		_country_id,
+		_city,
+		_address
+	);
+end
+$BODY$
+  LANGUAGE 'plpgsql'
