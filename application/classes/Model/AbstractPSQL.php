@@ -13,4 +13,14 @@ class Model_AbstractPSQL
         $res = $query->execute();
         return $res->as_array();
     }
+
+    public function get($id)
+    {
+        $query = DB::select()
+            ->from($this->table)
+            ->where('id', '=', $id);
+        /** @var $res Result */
+        $res = $query->execute();
+        return $res->as_array();
+    }
 }

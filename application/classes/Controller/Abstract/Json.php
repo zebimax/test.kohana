@@ -36,10 +36,9 @@ abstract class Controller_Abstract_Json extends Controller
         $this->view = View::factory('json');
         $this->view
             ->set('success', TRUE)
-            ->set('result', '')
             ->set('data', '')
             ->set('message', '')
-            ->set('error', '');
+            ->set('row', []);
     }
 
     private function initModel()

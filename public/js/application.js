@@ -20,15 +20,21 @@ $(document).ready(function () {
 
     editor = new $.fn.dataTable.Editor({
         ajax: {
-            create: "/users/create",
-            edit: "/users/edit",
+            create: {
+                url:"/users/create",
+                data:formatData
+            },
+            edit: {
+                url:"/users/edit",
+                data:formatData
+            },
             remove: "/users/delete"
         },
         idSrc: "id",
         i18n: {
             error: {
                 system: function () {
-                    return JSON.parse(event.target.responseText).error;
+                    log(JSON.parse(event.target.responseText).msg, true);
                 }
             }
         },
@@ -177,6 +183,10 @@ $(document).ready(function () {
             info_element.html('');
             info_element.hide();
         }, 2500);
+    }
+
+    function formatData(data) {
+        return data.data || [];
     }
 
     $(tableTools.fnContainer()).prependTo('#users_wrapper');
