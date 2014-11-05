@@ -5,6 +5,7 @@ use Application_Result as Result;
 class Controller_Users extends Controller_Abstract_Json
 {
     const NOT_REQUIRED_PARAM_TPL = 'Не передан обязательный параметр %s ';
+    const NOT_VALID_DATA_FORMAT = 'Не верный формат данных';
     protected $modelName = 'Users';
 
     /** @var Model_Users */
@@ -24,12 +25,18 @@ class Controller_Users extends Controller_Abstract_Json
 
     public function action_delete()
     {
-     Request::$current->post();
-     $this->view
-          ->set('success', false)
-          ->set('data', 'Deleted successfully')
-          ->set('message', 'Deleted successfully');
+        $this->check_required_post('id');
+        $ids = $this->request->post('id');
+        if (!is_array($ids)) {
+            throw new \Exception(self::NOT_VALID_DATA_FORMAT);
+        }
+        $result = $this->model->delete($ids);
 
+        $this->view
+             ->set('success', $result->getSuccess())
+             ->set('data', $result->getData())
+             ->set('message', $result->getMessage())
+            ->set('error', $result->getError());
    }
 
    public function action_list()
@@ -69,7 +76,6 @@ class Controller_Users extends Controller_Abstract_Json
 
     protected function get_result(array $data = [])
     {
-
         return new Result([
             Result::PARAM_SUCCESS => $this->get_result_param($data, Result::PARAM_SUCCESS),
             Result::PARAM_MESSAGE => $this->get_result_param($data, Result::PARAM_MESSAGE),

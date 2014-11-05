@@ -27,6 +27,9 @@
 
     <!-- DataTables -->
     <script type="text/javascript" src="/js/validation.js"></script>
+    <script src="/js/i18n.js"></script>
+    <script src="/js/editor.js"></script>
+    <script src="/js/functions.js"></script>
 
     <script src="/js/application.js"></script>
 </head>

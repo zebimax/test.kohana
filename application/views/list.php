@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <h3>Users</h3>
+        <h3>Список клиентов</h3>
     </div>
     <div class="row">
         <table id="users" class="table table-striped table-bordered" cellspacing="0" width="100%">

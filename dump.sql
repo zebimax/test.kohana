@@ -700,124 +700,38 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-CREATE OR REPLACE FUNCTION validate_varchar_length (_str varchar, len int8)
-    RETURNS bool
-AS
-    $BODY$
-  select length(_str) <= len;
-$BODY$
-LANGUAGE sql IMMUTABLE STRICT;
+CREATE OR REPLACE VIEW public.users_view AS SELECT u.id,
+                                                u.name AS first_name,
+                                                u.last_name,
+                                                u.email,
+                                                u.address,
+                                                u.city,
+                                                c.name AS country
+                                            FROM (users u
+                                                LEFT JOIN countries c ON ((c.id = u.country_id)))
+                                            WHERE (u.deleted = false);
 
 
-CREATE OR REPLACE FUNCTION validate_text_length (_text text, len int8)
-    RETURNS bool
+CREATE OR REPLACE FUNCTION users_delete (_int4)
+    RETURNS int4
 AS
     $BODY$
-  select length(_text) <= len;
-$BODY$
-LANGUAGE sql IMMUTABLE STRICT;
-
-CREATE OR REPLACE FUNCTION validate_text_length (_text TEXT, len INT8)
-    RETURNS bool
-AS
-    $BODY$
-  select length(_text) <= len;
-$BODY$
-LANGUAGE sql IMMUTABLE STRICT;
-
-CREATE OR REPLACE FUNCTION validate_email (email varchar)
-    RETURNS bool
-AS
-    $BODY$
-  select $1 ~ '^[a-zA-Z0-9.!#$%&''*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
-$BODY$
-LANGUAGE sql IMMUTABLE STRICT;
-
-CREATE OR REPLACE FUNCTION validate_country_id (_country_id int4)
-    RETURNS bool
-AS
-    $BODY$
-  select exists(SELECT 1 from countries c where c.id = _country_id and NOT c.deleted);
-$BODY$
-LANGUAGE sql IMMUTABLE STRICT;
-
-CREATE OR REPLACE FUNCTION users_insert (
-    _name varchar,
-    _last_name varchar,
-    _email varchar,
-    _country_id int4,
-    _city varchar,
-    _address text
-)
-    RETURNS INTEGER
-AS
-    $BODY$
-DECLARE
-  message_error text;
+  DECLARE _row_count INT4;
   BEGIN
-          IF NOT validate_name(_name, 32)
-             THEN RAISE EXCEPTION 'NOT VALID NAME';
-
-          ELSEIF NOT validate_name(_last_name, 64)
-            THEN RAISE EXCEPTION 'NOT VALID LAST_NAME';
-
-          ELSEIF NOT validate_email(_email)
-            THEN RAISE EXCEPTION 'NOT VALID EMAIL';
-
-          ELSEIF NOT validate_country_id(_country_id)
-            THEN RAISE EXCEPTION 'NOT COUNTRY_ID';
-
-          ELSEIF NOT validate_varchar_length(_city, 255)
-            THEN RAISE EXCEPTION 'NOT VALID CITY';
-
-          ELSEIF NOT validate_text_length(_address, 1000)
-            THEN RAISE EXCEPTION 'NOT VALID ADDRESS';
-
-          ELSE
-            BEGIN
-              INSERT INTO users
-              (
-                name,
-                last_name,
-                email,
-                country_id,
-                city,
-                address
-              )
-              VALUES
-              (
-                _name,
-                _last_name,
-                _email,
-                _country_id,
-                _city,
-                _address
-              );
-              EXCEPTION WHEN  unique_violation
-                THEN RAISE EXCEPTION 'NOT UNIQUE email';
-            END;
-        END IF;
-            RETURN currval(pg_get_serial_sequence('users','id'));
-            END
+  UPDATE users set deleted = TRUE WHERE id = ANY($1);
+    GET DIAGNOSTICS _row_count = ROW_COUNT;
+    RETURN _row_count;
+END
 $BODY$
 LANGUAGE plpgsql VOLATILE;
 
-
-CREATE OR REPLACE FUNCTION users_modify (
-    _id integer,
-    _name varchar,
-    _last_name varchar,
-    _email varchar,
-    _country_id int4,
-    _city varchar,
-    _address text
-)
+CREATE OR REPLACE FUNCTION users_modify (_id int4, _name varchar, _last_name varchar, _email varchar, _country_id int4, _city varchar, _address text)
     RETURNS int4
 AS
     $BODY$
   DECLARE
   message_error text;
-
+  _row_count integer;
   BEGIN
 
           IF NOT validate_name(_name, 32)
@@ -840,8 +754,8 @@ AS
 
           ELSE
             BEGIN
-              IF _id > 0 THEN
-                INSERT INTO users
+              IF _id = 0 THEN
+              INSERT INTO users
                 (
                   name,
                   last_name,
@@ -868,7 +782,7 @@ AS
                 address = _address
                 WHERE id = _id;
                 GET DIAGNOSTICS _row_count = ROW_COUNT;
-                RETURN
+                RETURN _row_count;
                 END IF;
               EXCEPTION WHEN  unique_violation
                 THEN RAISE EXCEPTION 'NOT UNIQUE email';
@@ -878,3 +792,46 @@ AS
             END
 $BODY$
 LANGUAGE plpgsql VOLATILE;
+
+CREATE OR REPLACE FUNCTION validate_country_id (_country_id int4)
+    RETURNS bool
+AS
+    $BODY$
+  select exists(SELECT 1 from countries c where c.id = _country_id and NOT c.deleted);
+$BODY$
+LANGUAGE sql IMMUTABLE STRICT;
+
+
+CREATE OR REPLACE FUNCTION validate_email (email varchar)
+    RETURNS bool
+AS
+    $BODY$
+  select $1 ~ '^[a-zA-Z0-9.!#$%&''*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
+$BODY$
+LANGUAGE sql IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION validate_name (name varchar, len int4)
+    RETURNS bool
+AS
+    $BODY$
+  select name ~* '^[a-zа-я0-9_]+$' AND length(name) <= len;
+$BODY$
+LANGUAGE sql IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION validate_text_length (_text text, len int4)
+    RETURNS bool
+AS
+    $BODY$
+  select length(_text) <= len;
+$BODY$
+LANGUAGE sql IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION validate_varchar_length (_str varchar, len int4)
+    RETURNS bool
+AS
+    $BODY$
+  select length(_str) <= len;
+$BODY$
+LANGUAGE sql IMMUTABLE STRICT;
+
+
