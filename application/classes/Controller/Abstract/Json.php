@@ -27,21 +27,23 @@ abstract class Controller_Abstract_Json extends Controller
 
     public function init()
     {
-        $this->initView();
-        $this->initModel();
+        $this->init_view();
+        $this->init_model();
     }
 
-    private function initView()
+    private function init_view()
     {
         $this->view = View::factory('json');
         $this->view
             ->set('success', TRUE)
             ->set('data', '')
             ->set('message', '')
-            ->set('row', []);
+            ->set('error', '')
+            ->set('row', [])
+           ->set('field_errors', []);
     }
 
-    private function initModel()
+    private function init_model()
     {
         if ($this->modelName) {
             $this->model = Kohana_Model::factory($this->modelName);

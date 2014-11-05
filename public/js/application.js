@@ -51,7 +51,9 @@ $(document).ready(function () {
         }, {
             type:  "select",
             label: "Страна:",
-            name: "country",
+            name: "country_id",
+            value: "country",
+            data: "country_id",
             ipOpts: getCountriesList()
         },{
             label: "Город:",
@@ -69,7 +71,7 @@ $(document).ready(function () {
         ajax: {
             url: "/users/list",
             error: function (data) {
-                alert(JSON.parse(data.responseText).error);
+                log(JSON.parse(data.responseText).error, true);
             }
         },
         columns: [
@@ -77,7 +79,12 @@ $(document).ready(function () {
             {data: "first_name"},
             {data: "last_name"},
             {data: "email"},
-            {data: "country"},
+            {
+                data: "country_id",
+                render: function ( data, type, full, meta ) {
+                    return full.country;
+                }
+            },
             {data: "city"},
             {data: "address"}
         ]
@@ -93,7 +100,7 @@ $(document).ready(function () {
     });
 
     editor.on('submitSuccess', function (e, json) {
-        log(json.msg, json.success);
+        log(json.msg, !json.success);
     });
 
     editor.on( 'preSubmit', function ( e, o ) {
@@ -121,7 +128,7 @@ $(document).ready(function () {
             return false;
         }
 
-        if ( ! number_validation(o.data.country) ) {
+        if ( ! number_validation(o.data.country_id) ) {
             this.error(
                 'country',
                 SELECT_ERROR
@@ -186,7 +193,12 @@ $(document).ready(function () {
     }
 
     function formatData(data) {
-        return data.data || [];
+
+        var form_data = data.data || [];
+        if (data.id) {
+            form_data['id'] = data.id;
+        }
+        return form_data;
     }
 
     $(tableTools.fnContainer()).prependTo('#users_wrapper');

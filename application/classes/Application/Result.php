@@ -5,12 +5,14 @@ class Application_Result
     const PARAM_SUCCESS = 'success';
     const PARAM_MESSAGE = 'message';
     const PARAM_DATA = 'data';
+    const PARAM_ERROR = 'error';
+
 
     protected $success;
-
     protected $message;
-
     protected $data;
+    protected $error;
+
 
     public function __construct(array $params = array())
     {
@@ -25,6 +27,9 @@ class Application_Result
                         break;
                     case self::PARAM_DATA:
                         $this->data = $value;
+                        break;
+                    case self::PARAM_ERROR:
+                        $this->error = $value;
                         break;
                     default:
                         break;
@@ -86,5 +91,13 @@ class Application_Result
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 }

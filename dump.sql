@@ -801,3 +801,80 @@ DECLARE
             END
 $BODY$
 LANGUAGE plpgsql VOLATILE;
+
+
+CREATE OR REPLACE FUNCTION users_modify (
+    _id integer,
+    _name varchar,
+    _last_name varchar,
+    _email varchar,
+    _country_id int4,
+    _city varchar,
+    _address text
+)
+    RETURNS int4
+AS
+    $BODY$
+  DECLARE
+  message_error text;
+
+  BEGIN
+
+          IF NOT validate_name(_name, 32)
+             THEN RAISE EXCEPTION 'NOT VALID NAME';
+
+          ELSEIF NOT validate_name(_last_name, 64)
+            THEN RAISE EXCEPTION 'NOT VALID LAST_NAME';
+
+          ELSEIF NOT validate_email(_email)
+            THEN RAISE EXCEPTION 'NOT VALID EMAIL';
+
+          ELSEIF NOT validate_country_id(_country_id)
+            THEN RAISE EXCEPTION 'NOT COUNTRY_ID';
+
+          ELSEIF NOT validate_varchar_length(_city, 255)
+            THEN RAISE EXCEPTION 'NOT VALID CITY';
+
+          ELSEIF NOT validate_text_length(_address, 1000)
+            THEN RAISE EXCEPTION 'NOT VALID ADDRESS';
+
+          ELSE
+            BEGIN
+              IF _id > 0 THEN
+                INSERT INTO users
+                (
+                  name,
+                  last_name,
+                  email,
+                  country_id,
+                  city,
+                  address
+                )
+                VALUES
+                (
+                  _name,
+                  _last_name,
+                  _email,
+                  _country_id,
+                  _city,
+                  _address
+                );
+              ELSE UPDATE users SET
+                name = _name,
+                last_name = _last_name,
+                email = _email,
+                country_id = _country_id,
+                city = _city,
+                address = _address
+                WHERE id = _id;
+                GET DIAGNOSTICS _row_count = ROW_COUNT;
+                RETURN
+                END IF;
+              EXCEPTION WHEN  unique_violation
+                THEN RAISE EXCEPTION 'NOT UNIQUE email';
+            END;
+        END IF;
+            RETURN currval(pg_get_serial_sequence('users','id'));
+            END
+$BODY$
+LANGUAGE plpgsql VOLATILE;

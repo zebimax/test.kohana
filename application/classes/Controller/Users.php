@@ -4,6 +4,7 @@ use Application_Result as Result;
 
 class Controller_Users extends Controller_Abstract_Json
 {
+    const NOT_REQUIRED_PARAM_TPL = 'Не передан обязательный параметр %s ';
     protected $modelName = 'Users';
 
     /** @var Model_Users */
@@ -11,19 +12,13 @@ class Controller_Users extends Controller_Abstract_Json
 
     public function action_create()
     {
-        $data = $this->get_form_data();
-        if ($data->check()) {
-            $result = $this->model->create($data->data());
-        } else {
-            $result = $this->getResult([
-                'message' => 'NOT VALID FORM'
-            ]);
-        }
+        $this->modify_data();
+    }
 
-        $this->view
-            ->set('success', $result->getSuccess())
-            ->set('row', $result->getData())
-            ->set('message', $result->getMessage());
+    public function action_edit()
+    {
+        $this->check_required_post('id');
+        $this->modify_data(FALSE);
     }
 
 
@@ -72,14 +67,14 @@ class Controller_Users extends Controller_Abstract_Json
         return $data;
     }
 
-    protected function getResult(array $data = [])
+    protected function get_result(array $data = [])
     {
 
         return new Result([
-            Result::PARAM_SUCCESS => $this->getResultParam($data, Result::PARAM_SUCCESS),
-            Result::PARAM_MESSAGE => $this->getResultParam($data, Result::PARAM_MESSAGE),
-            Result::PARAM_DATA => $this->getResultParam($data, Result::PARAM_DATA),
-            Result::PARAM_ROW => $this->getResultParam($data, Result::PARAM_ROW),
+            Result::PARAM_SUCCESS => $this->get_result_param($data, Result::PARAM_SUCCESS),
+            Result::PARAM_MESSAGE => $this->get_result_param($data, Result::PARAM_MESSAGE),
+            Result::PARAM_DATA => $this->get_result_param($data, Result::PARAM_DATA),
+            Result::PARAM_ERROR => $this->get_result_param($data, Result::PARAM_ERROR)
         ]);
     }
 
@@ -88,10 +83,54 @@ class Controller_Users extends Controller_Abstract_Json
      * @param $param
      * @return bool
      */
-    protected function getResultParam(array $data, $param)
+    protected function get_result_param(array $data, $param)
     {
         return isset($data[$param])
             ? $data[$param]
             : FALSE;
+    }
+    
+    protected function get_form_errors(Validation $validation)
+    {
+        $errors = [];
+        foreach ($validation->errors('user_form_errors') as $field => $field_error) {
+            $errors[] = [
+                'name' => $field,
+                'status' => $field_error
+            ];
+        }
+        return $errors;
+    }
+
+    protected function check_required_post($param)
+    {
+        if ( ! $this->request->post($param)) {
+            throw new \Exception(
+                sprintf(
+                    self::NOT_REQUIRED_PARAM_TPL,
+                    $param
+                ));
+        }
+    }
+
+    protected function modify_data($create = TRUE)
+    {
+        $data = $this->get_form_data($create);
+        if ($data->check()) {
+            $result = $this->model->modify($data->data());
+            if ( ! $result->getSuccess()) {
+                $this->view->set('error', $result->getMessage());
+            }
+        } else {
+            $result = $this->get_result([
+                'error' => $this->get_form_errors($data)
+            ]);
+        }
+
+        $this->view
+            ->set('success', $result->getSuccess())
+            ->set('row', $result->getData())
+            ->set('message', $result->getMessage())
+            ->set('field_errors', $result->getError());
     }
 }
