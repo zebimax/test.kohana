@@ -1,4 +1,5 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access.');
+
 use Database_PostgreSQL_Result as Result;
 
 
@@ -6,6 +7,9 @@ class Model_AbstractPSQL
 {
     protected $table;
 
+    /**
+     * @return array
+     */
     public function getList()
     {
         $query = DB::select()->from($this->table);
@@ -14,6 +18,10 @@ class Model_AbstractPSQL
         return $res->as_array();
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function get($id)
     {
         $query = DB::select()

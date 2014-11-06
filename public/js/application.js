@@ -56,6 +56,7 @@ $(document).ready(function () {
             name: "email"
         }, {
             type:  "select",
+            class: "form-control",
             label: "Страна:",
             name: "country_id",
             value: "country",

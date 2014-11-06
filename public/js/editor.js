@@ -9,6 +9,9 @@ function config_editor(i18n) {
             this.check_modify(o.data);
         }
     } );
+    editor.on( 'open', function ( e, type ) {
+        $('.DTE_Form_Content').find('select,input').addClass('form-control');
+    } );
 
     editor.check_modify = function(data) {
 

@@ -1,7 +1,7 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access.');
+
 use Application_Result as Result;
 use Model_UsersView as UsersView;
-
 
 class Model_Users extends Model_AbstractPSQL
 {
@@ -9,16 +9,19 @@ class Model_Users extends Model_AbstractPSQL
     const MODIFY_ERROR = 'Ошибка создания/редактирования.';
     const CREATE_TPL = 'Пользователь с ИД %s создан.';
     const UPDATE_TPL = 'Пользователь с ИД %s отредактирован.';
-    const NOT_EXISTS_ERROR_TPL = 'User with id % doesn\'t exists';
+    const NOT_EXISTS_ERROR_TPL = 'Пользователя с ИД % не найдено';
 
     const DELETE_ERROR = 'Ошибка удаления';
     const DELETE_MESSAGE = 'Удаление успешно выполнено';
 
     protected $table = 'users';
 
+    /**
+     * @param $data
+     * @return Application_Result
+     */
     public function modify($data)
     {
-
         if (isset ($data['id']) && (int)$data['id']) {
             $id = (int)$data['id'];
         } else {
@@ -67,6 +70,10 @@ class Model_Users extends Model_AbstractPSQL
         ]);
     }
 
+    /**
+     * @param array $ids
+     * @return Application_Result
+     */
     public function delete(array $ids = [])
     {
         $query = DB::query(
@@ -99,6 +106,10 @@ class Model_Users extends Model_AbstractPSQL
         ]);
     }
 
+    /**
+     * @param $id
+     * @param Validation $validation
+     */
     public function user_exists($id, Validation $validation)
     {
         $users_view = $this->get_users_view_model();

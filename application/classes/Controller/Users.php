@@ -1,10 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-use Application_Result as Result;
-
 class Controller_Users extends Controller_Abstract_Json
 {
-    const NOT_REQUIRED_PARAM_TPL = 'Не передан обязательный параметр %s ';
     const NOT_VALID_DATA_FORMAT = 'Не верный формат данных';
     protected $modelName = 'Users';
 
@@ -22,7 +19,9 @@ class Controller_Users extends Controller_Abstract_Json
         $this->modify_data(FALSE);
     }
 
-
+    /**
+     * @throws Exception
+     */
     public function action_delete()
     {
         $this->check_required_post('id');
@@ -46,7 +45,11 @@ class Controller_Users extends Controller_Abstract_Json
         $this->view->set('data' , $users_view->getList());
     }
 
-    protected function get_form_data($create = TRUE)
+    /**
+     * @param bool $create
+     * @return Validation
+     */
+    private function get_form_data($create = TRUE)
     {
         $name_regexp = '/^[A-ZА-Я_0-9]+$/i';
         $data = Validation::factory($this->request->post())
@@ -74,28 +77,10 @@ class Controller_Users extends Controller_Abstract_Json
         return $data;
     }
 
-    protected function get_result(array $data = [])
-    {
-        return new Result([
-            Result::PARAM_SUCCESS => $this->get_result_param($data, Result::PARAM_SUCCESS),
-            Result::PARAM_MESSAGE => $this->get_result_param($data, Result::PARAM_MESSAGE),
-            Result::PARAM_DATA => $this->get_result_param($data, Result::PARAM_DATA),
-            Result::PARAM_ERROR => $this->get_result_param($data, Result::PARAM_ERROR)
-        ]);
-    }
-
     /**
-     * @param array $data
-     * @param $param
-     * @return bool
+     * @param Validation $validation
+     * @return array
      */
-    protected function get_result_param(array $data, $param)
-    {
-        return isset($data[$param])
-            ? $data[$param]
-            : FALSE;
-    }
-    
     protected function get_form_errors(Validation $validation)
     {
         $errors = [];
@@ -108,17 +93,9 @@ class Controller_Users extends Controller_Abstract_Json
         return $errors;
     }
 
-    protected function check_required_post($param)
-    {
-        if ( ! $this->request->post($param)) {
-            throw new \Exception(
-                sprintf(
-                    self::NOT_REQUIRED_PARAM_TPL,
-                    $param
-                ));
-        }
-    }
-
+    /**
+     * @param bool $create
+     */
     protected function modify_data($create = TRUE)
     {
         $data = $this->get_form_data($create);

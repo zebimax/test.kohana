@@ -1,13 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Controller_Abstract_Application extends Controller_Template {
+abstract class Controller_Abstract_Application extends Controller_Template
+{
 
     protected $view;
 
+    /**
+     * @throws Exception
+     * @throws Kohana_Exception
+     */
     public function before()
     {
         $app_config = Kohana::$config->load('application');
-        $this->checkDefaults($app_config);
+        $this->check_defaults($app_config);
         $this->view = View::factory($app_config->get('defaults')['view']);
         $this->template = $app_config->get('defaults')['template'];
         parent::before();
@@ -15,7 +20,11 @@ abstract class Controller_Abstract_Application extends Controller_Template {
             ->set('title', $app_config->get('title'));
     }
 
-    private function checkDefaults(Kohana_Config_Group $app_config)
+    /**
+     * @param Kohana_Config_Group $app_config
+     * @throws Exception
+     */
+    private function check_defaults(Kohana_Config_Group $app_config)
     {
         if (
             ( ! is_array($app_config->get('defaults'))) OR

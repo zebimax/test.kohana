@@ -15,25 +15,6 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
---
--- Name: core_countries; Type: TABLE; Schema: public; Owner: ajax; Tablespace: 
---
-
-CREATE TABLE core_countries (
-    iso1_code character(2) NOT NULL,
-    numeric_code smallint NOT NULL,
-    iso3_code character(3) NOT NULL,
-    name character(50) NOT NULL,
-    deleted boolean DEFAULT false NOT NULL
-);
-
-
-ALTER TABLE public.core_countries OWNER TO ajax;
-
---
--- Name: countries; Type: TABLE; Schema: public; Owner: ajax; Tablespace: 
---
-
 CREATE TABLE countries (
     id smallint NOT NULL,
     iso3_code character(3) NOT NULL,
@@ -76,7 +57,8 @@ CREATE TABLE users (
     email character varying(255) NOT NULL,
     address text,
     city character varying(255) NOT NULL,
-    country_id smallint NOT NULL
+    country_id smallint NOT NULL,
+    deleted boolean default false
 );
 
 
@@ -115,264 +97,6 @@ ALTER TABLE ONLY countries ALTER COLUMN id SET DEFAULT nextval('countries_id_seq
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
-
-
---
--- Data for Name: core_countries; Type: TABLE DATA; Schema: public; Owner: ajax
---
-
-COPY core_countries (iso1_code, numeric_code, iso3_code, name, deleted) FROM stdin;
-AD	20	AND	Andorra                                           	f
-AE	784	ARE	United Arab Emirates                              	f
-AF	4	AFG	Afghanistan                                       	f
-AG	28	ATG	Antigua and Barbuda                               	f
-AI	660	AIA	Anguilla                                          	f
-AL	8	ALB	Albania                                           	f
-AM	51	ARM	Armenia                                           	f
-AO	24	AGO	Angola                                            	f
-AQ	10	ATA	Antarctica                                        	f
-AR	32	ARG	Argentina                                         	f
-AS	16	ASM	American Samoa                                    	f
-AT	40	AUT	Austria                                           	f
-AU	36	AUS	Australia                                         	f
-AW	533	ABW	Aruba                                             	f
-AX	248	ALA	Aland Islands                                     	f
-AZ	31	AZE	Azerbaijan                                        	f
-BA	70	BIH	Bosnia and Herzegovina                            	f
-BB	52	BRB	Barbados                                          	f
-BD	50	BGD	Bangladesh                                        	f
-BE	56	BEL	Belgium                                           	f
-BF	854	BFA	Burkina Faso                                      	f
-BG	100	BGR	Bulgaria                                          	f
-BH	48	BHR	Bahrain                                           	f
-BI	108	BDI	Burundi                                           	f
-BJ	204	BEN	Benin                                             	f
-BL	652	BLM	Saint Barthelemy                                  	f
-BM	60	BMU	Bermuda                                           	f
-BN	96	BRN	Brunei Darussalam                                 	f
-BO	68	BOL	Bolivia, Plurinational State of                   	f
-BQ	535	BES	Bonaire, Sint Eustatius and Saba                  	f
-BR	76	BRA	Brazil                                            	f
-BS	44	BHS	Bahamas                                           	f
-BT	64	BTN	Bhutan                                            	f
-BV	74	BVT	Bouvet Island                                     	f
-BW	72	BWA	Botswana                                          	f
-BY	112	BLR	Belarus                                           	f
-BZ	84	BLZ	Belize                                            	f
-CA	124	CAN	Canada                                            	f
-CC	166	CCK	Cocos (Keeling) Islands                           	f
-CD	180	COD	Congo, the Democratic Republic of the             	f
-CF	140	CAF	Central African Republic                          	f
-CG	178	COG	Congo                                             	f
-CH	756	CHE	Switzerland                                       	f
-CI	384	CIV	Cote d'Ivoire                                     	f
-CK	184	COK	Cook Islands                                      	f
-CL	152	CHL	Chile                                             	f
-CM	120	CMR	Cameroon                                          	f
-CN	156	CHN	China                                             	f
-CO	170	COL	Colombia                                          	f
-CR	188	CRI	Costa Rica                                        	f
-CU	192	CUB	Cuba                                              	f
-CV	132	CPV	Cape Verde                                        	f
-CW	531	CUW	Curacao                                           	f
-CX	162	CXR	Christmas Island                                  	f
-CY	196	CYP	Cyprus                                            	f
-CZ	203	CZE	Czech Republic                                    	f
-DE	276	DEU	Germany                                           	f
-DJ	262	DJI	Djibouti                                          	f
-DK	208	DNK	Denmark                                           	f
-DM	212	DMA	Dominica                                          	f
-DO	214	DOM	Dominican Republic                                	f
-DZ	12	DZA	Algeria                                           	f
-EC	218	ECU	Ecuador                                           	f
-EE	233	EST	Estonia                                           	f
-EG	818	EGY	Egypt                                             	f
-EH	732	ESH	Western Sahara                                    	f
-ER	232	ERI	Eritrea                                           	f
-ES	724	ESP	Spain                                             	f
-ET	231	ETH	Ethiopia                                          	f
-FI	246	FIN	Finland                                           	f
-FJ	242	FJI	Fiji                                              	f
-FK	238	FLK	Falkland Islands (Malvinas)                       	f
-FM	583	FSM	Micronesia, Federated States of                   	f
-FO	234	FRO	Faroe Islands                                     	f
-FR	250	FRA	France                                            	f
-GA	266	GAB	Gabon                                             	f
-GB	826	GBR	United Kingdom                                    	f
-GD	308	GRD	Grenada                                           	f
-GE	268	GEO	Georgia                                           	f
-GF	254	GUF	French Guiana                                     	f
-GG	831	GGY	Guernsey                                          	f
-GH	288	GHA	Ghana                                             	f
-GI	292	GIB	Gibraltar                                         	f
-GL	304	GRL	Greenland                                         	f
-GM	270	GMB	Gambia                                            	f
-GN	324	GIN	Guinea                                            	f
-GP	312	GLP	Guadeloupe                                        	f
-GQ	226	GNQ	Equatorial Guinea                                 	f
-GR	300	GRC	Greece                                            	f
-GS	239	SGS	South Georgia and the South Sandwich Islands      	f
-GT	320	GTM	Guatemala                                         	f
-GU	316	GUM	Guam                                              	f
-GW	624	GNB	Guinea-Bissau                                     	f
-GY	328	GUY	Guyana                                            	f
-HK	344	HKG	Hong Kong                                         	f
-HM	334	HMD	Heard Island and McDonald Islands                 	f
-HN	340	HND	Honduras                                          	f
-HR	191	HRV	Croatia                                           	f
-HT	332	HTI	Haiti                                             	f
-HU	348	HUN	Hungary                                           	f
-ID	360	IDN	Indonesia                                         	f
-IE	372	IRL	Ireland                                           	f
-IL	376	ISR	Israel                                            	f
-IM	833	IMN	Isle of Man                                       	f
-IN	356	IND	India                                             	f
-IO	86	IOT	British Indian Ocean Territory                    	f
-IQ	368	IRQ	Iraq                                              	f
-IR	364	IRN	Iran, Islamic Republic of                         	f
-IS	352	ISL	Iceland                                           	f
-IT	380	ITA	Italy                                             	f
-JE	832	JEY	Jersey                                            	f
-JM	388	JAM	Jamaica                                           	f
-JO	400	JOR	Jordan                                            	f
-JP	392	JPN	Japan                                             	f
-KE	404	KEN	Kenya                                             	f
-KG	417	KGZ	Kyrgyzstan                                        	f
-KH	116	KHM	Cambodia                                          	f
-KI	296	KIR	Kiribati                                          	f
-KM	174	COM	Comoros                                           	f
-KN	659	KNA	Saint Kitts and Nevis                             	f
-KP	408	PRK	Korea, Democratic People's Republic of            	f
-KR	410	KOR	Korea, Republic of                                	f
-KW	414	KWT	Kuwait                                            	f
-KY	136	CYM	Cayman Islands                                    	f
-KZ	398	KAZ	Kazakhstan                                        	f
-LA	418	LAO	Lao People's Democratic Republic                  	f
-LB	422	LBN	Lebanon                                           	f
-LC	662	LCA	Saint Lucia                                       	f
-LI	438	LIE	Liechtenstein                                     	f
-LK	144	LKA	Sri Lanka                                         	f
-LR	430	LBR	Liberia                                           	f
-LS	426	LSO	Lesotho                                           	f
-LT	440	LTU	Lithuania                                         	f
-LU	442	LUX	Luxembourg                                        	f
-LV	428	LVA	Latvia                                            	f
-LY	434	LBY	Libyan Arab Jamahiriya                            	f
-MA	504	MAR	Morocco                                           	f
-MC	492	MCO	Monaco                                            	f
-MD	498	MDA	Moldova, Republic of                              	f
-ME	499	MNE	Montenegro                                        	f
-MF	663	MAF	Saint Martin (French part)                        	f
-MG	450	MDG	Madagascar                                        	f
-MH	584	MHL	Marshall Islands                                  	f
-MK	807	MKD	Macedonia, the former Yugoslav Republic of        	f
-ML	466	MLI	Mali                                              	f
-MM	104	MMR	Myanmar                                           	f
-MN	496	MNG	Mongolia                                          	f
-MO	446	MAC	Macao                                             	f
-MP	580	MNP	Northern Mariana Islands                          	f
-MQ	474	MTQ	Martinique                                        	f
-MR	478	MRT	Mauritania                                        	f
-MS	500	MSR	Montserrat                                        	f
-MT	470	MLT	Malta                                             	f
-MU	480	MUS	Mauritius                                         	f
-MV	462	MDV	Maldives                                          	f
-MW	454	MWI	Malawi                                            	f
-MX	484	MEX	Mexico                                            	f
-MY	458	MYS	Malaysia                                          	f
-MZ	508	MOZ	Mozambique                                        	f
-NA	516	NAM	Namibia                                           	f
-NC	540	NCL	New Caledonia                                     	f
-NE	562	NER	Niger                                             	f
-NF	574	NFK	Norfolk Island                                    	f
-NG	566	NGA	Nigeria                                           	f
-NI	558	NIC	Nicaragua                                         	f
-NL	528	NLD	Netherlands                                       	f
-NO	578	NOR	Norway                                            	f
-NP	524	NPL	Nepal                                             	f
-NR	520	NRU	Nauru                                             	f
-NU	570	NIU	Niue                                              	f
-NZ	554	NZL	New Zealand                                       	f
-OM	512	OMN	Oman                                              	f
-PA	591	PAN	Panama                                            	f
-PE	604	PER	Peru                                              	f
-PF	258	PYF	French Polynesia                                  	f
-PG	598	PNG	Papua New Guinea                                  	f
-PH	608	PHL	Philippines                                       	f
-PK	586	PAK	Pakistan                                          	f
-PL	616	POL	Poland                                            	f
-PM	666	SPM	Saint Pierre and Miquelon                         	f
-PN	612	PCN	Pitcairn                                          	f
-PR	630	PRI	Puerto Rico                                       	f
-PS	275	PSE	Palestinian Territory, Occupied                   	f
-PT	620	PRT	Portugal                                          	f
-PW	585	PLW	Palau                                             	f
-PY	600	PRY	Paraguay                                          	f
-QA	634	QAT	Qatar                                             	f
-RE	638	REU	Reunion                                           	f
-RO	642	ROU	Romania                                           	f
-RS	688	SRB	Serbia                                            	f
-RU	643	RUS	Russian Federation                                	f
-RW	646	RWA	Rwanda                                            	f
-SA	682	SAU	Saudi Arabia                                      	f
-SB	90	SLB	Solomon Islands                                   	f
-SC	690	SYC	Seychelles                                        	f
-SD	729	SDN	Sudan                                             	f
-SE	752	SWE	Sweden                                            	f
-SG	702	SGP	Singapore                                         	f
-SH	654	SHN	Saint Helena, Ascension and Tristan da Cunha      	f
-SI	705	SVN	Slovenia                                          	f
-SJ	744	SJM	Svalbard and Jan Mayen                            	f
-SK	703	SVK	Slovakia                                          	f
-SL	694	SLE	Sierra Leone                                      	f
-SM	674	SMR	San Marino                                        	f
-SN	686	SEN	Senegal                                           	f
-SO	706	SOM	Somalia                                           	f
-SR	740	SUR	Suriname                                          	f
-SS	728	SSD	South Sudan                                       	f
-ST	678	STP	Sao Tome and Principe                             	f
-SV	222	SLV	El Salvador                                       	f
-SX	534	SXM	Sint Maarten (Dutch part)                         	f
-SY	760	SYR	Syrian Arab Republic                              	f
-SZ	748	SWZ	Swaziland                                         	f
-TC	796	TCA	Turks and Caicos Islands                          	f
-TD	148	TCD	Chad                                              	f
-TF	260	ATF	French Southern Territories                       	f
-TG	768	TGO	Togo                                              	f
-TH	764	THA	Thailand                                          	f
-TJ	762	TJK	Tajikistan                                        	f
-TK	772	TKL	Tokelau                                           	f
-TL	626	TLS	Timor-Leste                                       	f
-TM	795	TKM	Turkmenistan                                      	f
-TN	788	TUN	Tunisia                                           	f
-TO	776	TON	Tonga                                             	f
-TR	792	TUR	Turkey                                            	f
-TT	780	TTO	Trinidad and Tobago                               	f
-TV	798	TUV	Tuvalu                                            	f
-TW	158	TWN	Taiwan, Province of China                         	f
-TZ	834	TZA	Tanzania, United Republic of                      	f
-UA	804	UKR	Ukraine                                           	f
-UG	800	UGA	Uganda                                            	f
-UM	581	UMI	United States Minor Outlying Islands              	f
-US	840	USA	United States                                     	f
-UY	858	URY	Uruguay                                           	f
-UZ	860	UZB	Uzbekistan                                        	f
-VA	336	VAT	Holy See (Vatican City State)                     	f
-VC	670	VCT	Saint Vincent and the Grenadines                  	f
-VE	862	VEN	Venezuela, Bolivarian Republic of                 	f
-VG	92	VGB	Virgin Islands, British                           	f
-VI	850	VIR	Virgin Islands, U.S.                              	f
-VN	704	VNM	Viet Nam                                          	f
-VU	548	VUT	Vanuatu                                           	f
-WF	876	WLF	Wallis and Futuna                                 	f
-WS	882	WSM	Samoa                                             	f
-YE	887	YEM	Yemen                                             	f
-YT	175	MYT	Mayotte                                           	f
-ZA	710	ZAF	South Africa                                      	f
-ZM	894	ZMB	Zambia                                            	f
-ZW	716	ZWE	Zimbabwe                                          	f
-ZZ	1000	ZZZ	NA                                                	f
-\.
 
 
 --
@@ -423,7 +147,7 @@ COPY countries (id, iso3_code, name, deleted) FROM stdin;
 41	CAF	Central African Republic	f
 42	COG	Congo	f
 43	CHE	Switzerland	f
-44	CIV	Cote d'Ivoire	f
+44	CIV	Cote d''Ivoire	f
 45	COK	Cook Islands	f
 46	CHL	Chile	f
 47	CMR	Cameroon	f
@@ -500,12 +224,12 @@ COPY countries (id, iso3_code, name, deleted) FROM stdin;
 118	KIR	Kiribati	f
 119	COM	Comoros	f
 120	KNA	Saint Kitts and Nevis	f
-121	PRK	Korea, Democratic People's Republic of	f
+121	PRK	Korea, Democratic People''s Republic of	f
 122	KOR	Korea, Republic of	f
 123	KWT	Kuwait	f
 124	CYM	Cayman Islands	f
 125	KAZ	Kazakhstan	f
-126	LAO	Lao People's Democratic Republic	f
+126	LAO	Lao People''s Democratic Republic	f
 127	LBN	Lebanon	f
 128	LCA	Saint Lucia	f
 129	LIE	Liechtenstein	f
